@@ -1,0 +1,62 @@
+# memect CI 自动化配置脚本
+
+# 文件说明
+
+## config.sh
+
+配置ssh配置文件，只需要执行一次
+
+### 参数说明
+
+config.sh [host] [hostname] [user] [port]
+
+### 示例
+
+``` shell
+
+sh config.sh qianliyan 101.200.162.35 labs 12021
+
+```
+
+## prod_env.sh
+
+初始化服务器环境，包括git bare目录、git目录、hook脚本，只需要执行一次
+
+### 参数说明
+
+prod_env.sh [project_folder]
+
+### 示例
+
+``` shell
+sh prod_env.sh /opt/project/fuck
+```
+
+## test_env.sh
+
+初始化测试机环境，添加了一个git remote源，name为``online``
+
+### 参数说明
+
+test_env.sh [project_folder] [host]
+
+### 示例
+
+``` shell
+sh test_env.sh /var/www/fuck labs@qianliyan:/opt/project/fuck.bare
+```
+
+## 开发使用流程
+
+* 在gitlab上新建git项目
+* 本地开发机/测试机clone项目
+* 确定上线时执行git push online HEAD:master命令即可
+
+## 部署流程
+
+* 执行config.sh，若已经执行过则不需要再执行
+* 将ssh public key配置到对应服务器上
+* 到目标服务器上执行prod_env.sh
+* 在开发机或测试机上执行test_env.sh
+* 享受开发，接下来的上线可以解放双手:)
+ 
